@@ -6,31 +6,33 @@ import urllib.request
 import os
 
 
-def get_sougou_image(category, tag, size, pages, path):
-    url = "https://pic.sogou.com/pics/channel/getAllRecomPicByTag.jsp"
+def get_sougou_image(query, tagQSign, size, pages, path):
+    url = "https://pic.sogou.com/napi/pc/searchList"
     params = {
-        "category": category,
-        "tag": tag,
+        "query": query,
+        "tagQSign": tagQSign,
         "start": 0,
-        "len": size,
-        "width": 1920,
-        "height": 1080
+        "xml_len": size,
+        "cwidth": 1920,
+        "cheight": 1080,
+        "mode": 13,
+        "dm": 4
     }
-    m = 1
     # 文件目录不存在时，新建目录
-    path += "/" + category + "/" + tag + "/"
+    path += "/" + query + "/" + tagQSign.split(",")[0] + "/"
     if not os.path.exists(path):
         os.makedirs(path)
+    m = 1
     for page in range(0, pages):
         params["start"] = page * size
         print('***** 第' + str(page + 1) + '页 *****' + '   Downloading...')
         response = requests.get(url, params=params)
         data = response.json()
-        images = data["all_items"]
+        images = data["data"]["items"]
         for image in images:
-            image_url = image["pic_url"]
+            image_url = image["oriPicUrl"]
             print('***** ' + image_url + ' *****')
-            print('***** ' + str(m) + '.jpg *****' + '  Downloading...')
+            print('***** ' + str(m) + ' *****' + '  Downloading...')
             try:
                 urllib.request.urlretrieve(image_url, path + str(m) + '.jpg')
             except Exception:
@@ -41,5 +43,5 @@ def get_sougou_image(category, tag, size, pages, path):
             break
 
 
-get_sougou_image("明星", "全部", 15, 10, "G:/Download")
+get_sougou_image("壁纸", "美女,fa976caa", 48, 2, "G:/Download")
 
