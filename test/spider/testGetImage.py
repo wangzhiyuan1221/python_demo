@@ -34,7 +34,7 @@ def get_sougou_image(category, tag, size, pages, path):
             images_url.append(image["pic_url"])
         for image_url in images_url:
             print('***** ' + image_url + ' *****')
-            print('***** ' + str(m) + '.jpg *****' + '   Downloading...')
+            print('***** ' + str(m) + '.jpg *****' + '  Downloading...')
             urllib.request.urlretrieve(image_url, path + tag + str(m) + '.jpg')
             m += 1
         # 一页图片数不够分页大小时，表示没有下一页了，退出循环
