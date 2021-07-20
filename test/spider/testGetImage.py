@@ -2,7 +2,7 @@
 # -*- coding: UTF-8 -*-
 
 import requests
-import urllib
+import urllib.request
 import os
 
 
