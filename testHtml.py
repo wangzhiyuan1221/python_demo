@@ -14,3 +14,4 @@ html_str = """
 soup = BeautifulSoup(html_str, 'lxml')
 print(soup.a.attrs['id'])
 print(soup.a.attrs['href'])
+print(soup.p.attrs['class'][0])
